@@ -27,19 +27,18 @@ public class CengPokeParser {
 			String commandlineStr = sc.nextLine();
 			String [] params = commandlineStr.split("\t");
 			String command = params[0];
-			System.out.println("Your command: "+ command);
 			switch(command) {
 				case "add":
 					CengPoke poke = new CengPoke(Integer.parseInt(params[1]), params[2], params[3], params[4]);
-					System.out.println("Created poke:");
-					System.out.println("CenkPoke("+ poke.pokeKey()+ ", "+poke.pokeName()+", "+ poke.pokePower()+", "+poke.pokeType()+")");
+//					System.out.println("Created poke:");
+//					System.out.println("CenkPoke("+ poke.pokeKey()+ ", "+poke.pokeName()+", "+ poke.pokePower()+", "+poke.pokeType()+")");
 					CengPokeKeeper.addPoke(poke);
 					break;
 				case "delete":
-					// code block
+					CengPokeKeeper.deletePoke(Integer.parseInt(params[1]));
 					break;
 				case "search":
-					// code block
+					CengPokeKeeper.searchPoke(Integer.parseInt(params[1]));
 					break;
 				case "print":
 					CengPokeKeeper.printEverything();
@@ -49,7 +48,6 @@ public class CengPokeParser {
 			}
 			//add	4	Charizard	200	Fire
 		}
-		System.out.println("quitted");
 
 		// There are 5 commands:
 		// 1) quit : End the app. Print nothing, call nothing.

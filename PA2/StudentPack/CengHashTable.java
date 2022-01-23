@@ -5,6 +5,7 @@ public class CengHashTable {
 	public Vector<CengHashRow> rows;
 	public int bitNumber;
 	public int globalDepth;
+	public int emptyBucket;
 
 	public CengHashTable()
 	{
@@ -14,11 +15,39 @@ public class CengHashTable {
 		CengHashRow row = new CengHashRow("0");
 		rows.add(row);
 		globalDepth = 0;
+		emptyBucket = 0;
 	}
 
 	public void deletePoke(Integer pokeKey)
 	{
-		// TODO: Empty Implementation
+		int hashedVal = pokeKey % CengPokeKeeper.getHashMod();
+		String binaryString = Integer.toBinaryString(hashedVal);
+		int len = binaryString.length();
+		String hash;
+		if(len==bitNumber){
+			hash = binaryString;
+		}
+		else{
+			int appendZero = bitNumber-len;
+			hash = "0".repeat(appendZero)+binaryString;
+		}
+		CengHashRow r;
+		for(int i=0;i<rows.size();i++){
+			r = rows.get(i);
+			if(hash.startsWith(r.hashPref.substring(0,globalDepth))){
+				for(int j=0;j<r.bucket.pokes.size();j++){
+					if(r.bucket.pokes.get(j).pokeKey()== pokeKey){
+						r.bucket.pokes.remove(j);
+						if(r.bucket.pokes.size()==0){
+							emptyBucket++;
+						}
+					}
+				}
+			}
+		}
+		System.out.println("\"delete\": {");
+		System.out.println("\t\"emptyBucketNum\": " + Integer.toString(emptyBucket));
+		System.out.println("}");
 	}
 
 	public void addPoke(CengPoke poke)
@@ -205,7 +234,45 @@ public class CengHashTable {
 	
 	public void searchPoke(Integer pokeKey)
 	{
-		// TODO: Empty Implementation
+		int hashedVal = pokeKey % CengPokeKeeper.getHashMod();
+		String binaryString = Integer.toBinaryString(hashedVal);
+		int len = binaryString.length();
+		String hash;
+		if(len==bitNumber){
+			hash = binaryString;
+		}
+		else{
+			int appendZero = bitNumber-len;
+			hash = "0".repeat(appendZero)+binaryString;
+		}
+		CengHashRow r;
+		Vector<CengHashRow> searchResult = new Vector<CengHashRow>();
+		for(int i=0;i<rows.size();i++){
+			r = rows.get(i);
+			CengBucket b = r.bucket;
+			if(hash.startsWith(b.hashPref.substring(0, b.hashLength))){
+				for(int j=0;j<r.bucket.pokes.size();j++){
+					if(r.bucket.pokes.get(j).pokeKey()== pokeKey){
+						searchResult.add(r);
+						break;
+					}
+				}
+			}
+		}
+		System.out.println("\"search\": {");
+		for(int i = 0; i< searchResult.size();i++ ){
+			r = searchResult.get(i);
+			if(i==searchResult.size()-1){
+				r.CengHashRowPrint("");
+			}
+			else{
+				r.CengHashRowPrint(",");
+			}
+
+		}
+		System.out.println("}");
+
+
 	}
 
 
