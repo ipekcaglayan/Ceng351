@@ -41,7 +41,7 @@ public class CengHashTable {
 
 		while(!added){
 			if(rows.size()==1){
-				CengBucket b = rows.get(0).bucket.get(0);
+				CengBucket b = rows.get(0).bucket;
 				if(b.pokes.size()<bucketSize){
 					b.pokes.add(poke); //new poke inserted.
 					added=true;
@@ -53,8 +53,8 @@ public class CengHashTable {
 					CengBucket newBucket2 = new CengBucket(1);
 					newBucket2.hashPref =  "1";
 
-					// double directory
-					CengHashRow newRow = new CengHashRow("1");
+					// distribute again
+
 					for(int i=0;i<b.pokes.size();i++){
 						CengPoke p = b.pokes.get(i);
 						if(!p.hash.startsWith(b.hashPref)){
@@ -62,6 +62,11 @@ public class CengHashTable {
 							newBucket2.pokes.add(p);
 						}
 					}
+
+					// double directory
+					CengHashRow newRow = new CengHashRow("1");
+					globalDepth++;
+
 					if(poke.hash.startsWith(b.hashPref)){
 						if (b.pokes.size()< bucketSize){
 							b.pokes.add(poke);
@@ -75,7 +80,7 @@ public class CengHashTable {
 						}
 					}
 
-					newRow.bucket.add(newBucket2);
+					newRow.bucket = newBucket2;
 					rows.add(newRow);
 
 
@@ -89,19 +94,29 @@ public class CengHashTable {
 				CengBucket b;
 				for(int i=0;i<rows.size();i++){
 					r = rows.get(i);
-					if(poke.hash.startsWith(r.hashPref)){
-						b = r.bucket.get(0);
+					if(poke.hash.startsWith(r.hashPref.substring(0, globalDepth) )){
+						b = r.bucket;
 						if(b.pokes.size()<bucketSize){
 							b.pokes.add(poke);
 							added=true;
+							break;
 						}
 						else{
 							//split while buraya
 							while(!added){
+								CengBucket newBucket = new CengBucket(b.hashLength+1);
 								b.hashLength++;
-								CengBucket newBucket = new CengBucket(b.hashLength++);
 								newBucket.hashPref = b.hashPref+"1";
 								b.hashPref += "0";
+								//distribute again
+								for(int j=0;j<b.pokes.size();j++){
+									CengPoke p = b.pokes.get(j);
+									if(!p.hash.startsWith(b.hashPref)){
+										b.pokes.remove(j);
+										newBucket.pokes.add(p);
+									}
+								}
+
 								if(poke.hash.startsWith(b.hashPref)){
 									if (b.pokes.size()< bucketSize){
 										b.pokes.add(poke);
@@ -124,13 +139,12 @@ public class CengHashTable {
 											CengHashRow newRow = new CengHashRow(loopRow.hashPref+"1");
 											loopRow.hashPref +="0";
 
-											if(b.hashPref.startsWith(r.hashPref)){
-												newRow.bucket.add(newBucket);
+											if(b.hashPref.startsWith(r.hashPref.substring(0, b.hashLength))){
+												newRow.bucket = newBucket;
 											}
 											else{
-												loopRow.bucket.remove(0);
-												loopRow.bucket.add(newBucket);
-												newRow.bucket.add(b);
+												loopRow.bucket = newBucket;
+												newRow.bucket = b;
 											}
 											newRowsArray.add(loopRow);
 											newRowsArray.add(newRow);
@@ -138,7 +152,7 @@ public class CengHashTable {
 										else{
 											CengHashRow newRow = new CengHashRow(loopRow.hashPref+"1");
 											loopRow.hashPref +="0";
-											newRow.bucket.add(loopRow.bucket.get(0));
+											newRow.bucket = loopRow.bucket;
 											newRowsArray.add(loopRow);
 											newRowsArray.add(newRow);
 
@@ -146,9 +160,12 @@ public class CengHashTable {
 									}
 									rows = newRowsArray;
 								}
+								else{
+									r.bucket = newBucket;
+								}
 
 							}
-
+							break;
 
 						}
 					}
@@ -191,12 +208,19 @@ public class CengHashTable {
 		// TODO: Empty Implementation
 	}
 
+
 	public void print()
 	{
 		System.out.println("\"table\": {");
 		for(int i = 0; i< rows.size();i++ ){
 			CengHashRow r = rows.get(i);
-			r.CengHashRowPrint();
+			if(i==rows.size()-1){
+				r.CengHashRowPrint("");
+			}
+			else{
+				r.CengHashRowPrint(",");
+			}
+
 		}
 		System.out.println("}");
 

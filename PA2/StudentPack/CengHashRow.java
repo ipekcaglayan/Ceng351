@@ -5,12 +5,11 @@ public class CengHashRow {
 	// GUI-Based Methods
 	// These methods are required by GUI to work properly.
 	public String hashPref;
-	public Vector<CengBucket> bucket;
+	public CengBucket bucket;
 	public CengHashRow(String prefix)
 	{
 		hashPref = prefix;
-		bucket = new Vector<CengBucket>();
-		bucket.add(new CengBucket(0));
+		bucket = new CengBucket(0);
 	}
 	
 	public String hashPrefix()
@@ -31,14 +30,11 @@ public class CengHashRow {
 		return false;		
 	}
 
-	void CengHashRowPrint(){
+	void CengHashRowPrint(String comma){
 		System.out.println("\t"+"\"row\": {");
 		System.out.println("\t\t"+"\"hashPref\": " + hashPref+",");
-		for(int i=0;i<bucket.size();i++){
-			bucket.get(i).CengBucketPrint();
-
-		}
-		System.out.println("\t"+"}");
+		bucket.CengBucketPrint();
+		System.out.println("\t"+"}"+comma);
 
 
 	}

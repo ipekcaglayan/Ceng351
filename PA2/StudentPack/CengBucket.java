@@ -42,7 +42,13 @@ public class CengBucket {
 		System.out.println("\t\t\t"+"\"pokes\": [");
 		for(int i=0;i<pokes.size();i++){
 			CengPoke p = pokes.get(i);
-			p.CengPokePrint();
+			if(i==pokes.size()-1){
+				p.CengPokePrint("");
+			}
+			else{
+				p.CengPokePrint(",");
+			}
+
 		}
 		System.out.println("\t\t\t"+"]");
 		System.out.println("\t\t"+"}");

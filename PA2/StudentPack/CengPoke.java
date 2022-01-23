@@ -42,13 +42,13 @@ public class CengPoke {
 		
 	// Own Methods
 
-	void CengPokePrint(){
+	void CengPokePrint(String comma){
 		System.out.println("\t\t\t\t"+"\"poke\": {");
 		System.out.println("\t\t\t\t\t"+"\"hash\": "+hash+",");
 		System.out.println("\t\t\t\t\t"+"\"pokeKey\": " + Integer.toString(this.pokeKey)+",");
 		System.out.println("\t\t\t\t\t"+"\"pokeName\": " + this.pokeName+",");
 		System.out.println("\t\t\t\t\t"+"\"pokePower\": " + this.pokePower+",");
 		System.out.println("\t\t\t\t\t"+"\"pokeType\": " + this.pokeType);
-		System.out.println("\t\t\t\t"+"}");
+		System.out.println("\t\t\t\t"+"}"+comma);
 	}
 }
