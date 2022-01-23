@@ -5,6 +5,7 @@ public class CengPoke {
 	private String pokeName;
 	private String pokePower;
 	private String pokeType;
+	public String hash;
 	
 	public CengPoke(Integer pokeKey, String pokeName, String pokePower, String pokeType)
 	{
@@ -40,4 +41,14 @@ public class CengPoke {
 	}
 		
 	// Own Methods
+
+	void CengPokePrint(){
+		System.out.println("\t\t\t\t"+"\"poke\": {");
+		System.out.println("\t\t\t\t\t"+"\"hash\": "+hash+",");
+		System.out.println("\t\t\t\t\t"+"\"pokeKey\": " + Integer.toString(this.pokeKey)+",");
+		System.out.println("\t\t\t\t\t"+"\"pokeName\": " + this.pokeName+",");
+		System.out.println("\t\t\t\t\t"+"\"pokePower\": " + this.pokePower+",");
+		System.out.println("\t\t\t\t\t"+"\"pokeType\": " + this.pokeType);
+		System.out.println("\t\t\t\t"+"}");
+	}
 }

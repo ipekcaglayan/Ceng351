@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.lang.Math;
 
 public class CengPokeKeeper {
 	
@@ -26,7 +27,8 @@ public class CengPokeKeeper {
 	private static CengBucketList bucketList;
 	
 	public static void main(String[] args) throws Exception 
-	{		
+	{
+
 		if(args.length != 4)
 		{
 			throw new Exception("Usage : java CengPokeKeeper -hashMod- -bucketSize- -inputFileName- -guiEnabled (True or False)- \nExample usage: java CengPokeKeeper 8 2 pokemons.txt True ");
@@ -44,8 +46,12 @@ public class CengPokeKeeper {
 				
 		bucketList = new CengBucketList();
 		hashTable = new CengHashTable();
-		
+
+		hashTable.bitNumber = (int) (Math.log(hashMod)/ Math.log(2));
+
 		CengPokeParser.startParsingCommandLine();
+
+
 	}
 
 	public static CengHashTable getHashTable()
