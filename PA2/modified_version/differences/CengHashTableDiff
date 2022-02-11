@@ -1,0 +1,87 @@
+18c18
+< 		emptyBucket = 1;
+---
+> 		emptyBucket = 0;
+36d35
+< 		boolean deleted = false;
+41c40
+< 					if(r.bucket.pokes.get(j).pokeKey().equals(pokeKey)){
+---
+> 					if(r.bucket.pokes.get(j).pokeKey()== pokeKey){
+45d43
+< 							r.bucket.empty=true;
+48,49d45
+< 						deleted=true;
+< 						break;
+52,54d47
+< 				if(deleted){
+< 					break;
+< 				}
+56d48
+< 
+87,90d78
+< 					if(b.empty){
+< 						emptyBucket--;
+< 						b.empty = false;
+< 					}
+115,124d102
+< 					if(newBucket2.pokes.size()==0){
+< 						emptyBucket++;
+< 					}
+< 					else{
+< 						newBucket2.empty = false;
+< 						if(b.pokes.size()==0){
+< 							emptyBucket++;
+< 							b.empty = true;
+< 						}
+< 					}
+134,137d111
+< 							if(b.empty){
+< 								emptyBucket--;
+< 								b.empty=false;
+< 							}
+144,147d117
+< 							if(newBucket2.empty){
+< 								emptyBucket--;
+< 								newBucket2.empty=false;
+< 							}
+170,173d139
+< 							if(b.empty){
+< 								emptyBucket--;
+< 								b.empty=false;
+< 							}
+192,201d157
+< 								if(newBucket.pokes.size()==0){
+< 									emptyBucket++;
+< 								}
+< 								else{
+< 									newBucket.empty = false;
+< 									if(b.pokes.size()==0){
+< 										emptyBucket++;
+< 										b.empty = true;
+< 									}
+< 								}
+207,210d162
+< 										if(b.empty){
+< 											emptyBucket--;
+< 											b.empty=false;
+< 										}
+217,220d168
+< 										if(newBucket.empty){
+< 											emptyBucket--;
+< 											newBucket.empty=false;
+< 										}
+255,261c203
+< 									for(int x=0; x<rows.size();x++){
+< 										CengHashRow hr;
+< 										hr = rows.get(x);
+< 										if(!hr.hashPref.startsWith(hr.bucket.hashPref)){
+< 											hr.bucket=newBucket;
+< 										}
+< 									}
+---
+> 									r.bucket = newBucket;
+323c265
+< 					if(r.bucket.pokes.get(j).pokeKey().equals(pokeKey)){
+---
+> 					if(r.bucket.pokes.get(j).pokeKey()== pokeKey){
